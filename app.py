@@ -31,13 +31,27 @@ from sklearn.naive_bayes import MultinomialNB
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 from wordcloud import WordCloud
+from flask_cors import CORS
 
+
+UPLOAD_FOLDER = "uploads"
+STATIC_FOLDER = "static"
+STORAGE_FOLDER = "storage"
+
+os.makedirs(...)
+
+BASE_DIR = Path(__file__).resolve().parent
+
+DATASET_DIR = BASE_DIR / "dataset"
+STATIC_DIR = BASE_DIR / "static"
+STORAGE_DIR = BASE_DIR / "storage"
 
 # =====================================================
 # Flask Configuration
 # =====================================================
 
 app = Flask(__name__)
+CORS(app)
 
 # Maximum upload size: 10 MB
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
@@ -1190,9 +1204,16 @@ def reset():
 # Start Flask
 # =====================================================
 
+# if __name__ == "__main__":
+#     app.run(
+#         host="127.0.0.1",
+#         port=5000,
+#         debug=True
+#     )
+
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 7860))
     app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=True
+        host="0.0.0.0",
+        port=port
     )
